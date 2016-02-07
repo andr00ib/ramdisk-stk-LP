@@ -969,7 +969,6 @@ on property:selinux.reload_policy=1
 # SEC_SELINUX to support spota
 on property:selinux.sec.restorecon=1
     restorecon_recursive /data/security/spota
-    restorecon_recursive /data/security/aasa
 
 # SEC_SELINUX
 on property:init.svc.bootanim=stopped
@@ -1015,14 +1014,15 @@ service vold /system/bin/vold
     class core
     socket vold stream 0660 root mount
     ioprio be 2
-    socket epm stream 0660 system system
-    socket ppm stream 0660 system system
 ## Samsung ODE >>>
     socket dir_enc_report stream 0660 root mount
 ## Samsung ODE <<<
 
-## Frigatebird
-    socket frigate stream 0660 system system
+service epmd /system/bin/epmd
+    class main
+    socket epm stream 0660 system system
+    socket ppm stream 0660 system system
+    ioprio be 2
 
 service netd /system/bin/netd
     class main
